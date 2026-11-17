@@ -1,10 +1,10 @@
-BUG-01: Multi-seller checkout allows a seller order below ₹2,000 minimum (`CR-07`)
+BUG-01: Multi-seller checkout allows a seller order below ₹2,000 minimum
     Issue Type:Bug
     Severity:Critical
     Priority:P1 (Highest)
-    Test Data Used:Buyer: buyer1 (`Spice Route Kitchen`), Seller 1: WholeCart Direct (`₹1,731.90` net), Seller 2: `FreshFarm Foods` (`₹16,118.40` net), Created Order: `WC-01007-1`
+    Test Data Used:Buyer: buyer1 (Spice Route Kitchen), Seller 1: WholeCart Direct (Rs.1,731.90 net), Seller 2: FreshFarm Foods (Rs.16,118.40 net), Created Order: WC-01007-1
       Summary: 
-                As per CR-07,the minimum order value is Rs.2,000 net per seller. When testing with a single seller (buyer3 with Rs.735.98 net), checkout properly blocked the order. However, when two sellers were in the same cart, checkout checked the combined cart total (Rs.17,850.30) instead of checking each seller individually, allowing WholeCart Direct(₹1,731.90) to be ordered.
+                As per CR-07,the minimum order value is Rs.2,000 net per seller. When testing with a single seller (buyer3 with Rs.735.98 net), checkout properly blocked the order. However, when two sellers were in the same cart, checkout checked the combined cart total (Rs.17,850.30) instead of checking each seller individually, allowing WholeCart Direct(Rs.1,731.90) to be ordered.
     Steps To Reproduce:
   1. Log in as buyer1 (Test@123).
   2. Add products from WholeCart Direct totaling Rs.1,731.90 net (<2,000).
@@ -18,16 +18,16 @@ Checkout must block the order and show Minimum order value is Rs.2000 per seller
 The order was placed successfully with Order Number WC-01007-1 (Rs.1,731.90 net) was created.
 
 
-BUG-02: Tax Invoice missing mandatory Supply type: B2B and Place of supply fields (`CR-09`)
+BUG-02: Tax Invoice missing mandatory Supply type: B2B and Place of supply fields 
     Issue Type:Bug
     Severity:Critical
     Priority:P1 (Highest)
     Test Data Used:Buyer:buyer1 , Order: WC-01007-1, Invoice: INV-00007
       Summary: 
-                  As CR-09, every tax invoice must show Supply type: B2B and Place of supply with the state name and state code taken from the first two digits of the buyer's GSTIN (`30` = Goa). Without these two lines, the invoice is not valid. Both lines are completely missing on generated invoices.
+                  As CR-09, every tax invoice must show Supply type: B2B and Place of supply with the state name and state code taken from the first two digits of the buyer's GSTIN (30 = Goa). Without these two lines, the invoice is not valid. Both lines are completely missing on generated invoices.
     Steps To Reproduce:
    1. Place an order as buyer1.
-  2. Log in as seller1 (Test@123) and move the order through Accept -> Ship -> Deliver.
+  2. Log in as seller1 (Test@123) and move the order through Accept then  Ship then Deliver.
   3. Log back in as buyer1, open Invoices, and click on INV-00007.
 
     Expected Result:
@@ -41,7 +41,7 @@ BUG-03: Delivery fee (118.00) missing from Tax Invoice lines and table total
     Issue Type:Bug
     Severity:High
     Priority:P1 (Highest)
-    Test Data Used: Order: WC-01007-1 (Rs.1,731< ₹3,000), Invoice: INV-00007
+    Test Data Used: Order: WC-01007-1 (Rs.1,731< Rs.3,000), Invoice: INV-00007
       Summary: 
               For orders under 3,000 net, a delivery fee of 100 + 18% tax =118 is charged at checkout (making the order total Rs.1,936). The tax invoice must include the delivery fee as its own line item and match the order total. On INV-00007, the delivery fee row is missing.
     Steps To Reproduce:
@@ -73,7 +73,7 @@ BUG-04: Expired promotion (Pilot OPS-14, ended on 31 Oct 2026) but still giving 
 Since 31 Oct 2026 has passed, the offer should have expired automatically and Rs.118.00 delivery fee should be charged.
 
   Actual Result:
-The banner still shows `Pilot OPS-14` as active and delivery fee is charged as 0.
+The banner still shows Pilot OPS-14 as active and delivery fee is charged as 0.
 
 
 
@@ -173,7 +173,7 @@ Both of them are enable and giving expected error output after clicking them
 
 
 
-BUG-09: Seller `My products` screen has no option to edit product price or stock which is mention in Design doc that seller can manage the product
+BUG-09: Seller My products screen has no option to edit product price or stock which is mention in Design doc that seller can manage the product
     Issue Type:Bug
     Severity:Medium
     Priority:P2 (High)
@@ -218,7 +218,7 @@ BUG-11: CSV product import does not updated with latest csv data.
     Priority:P1 (Highest)
     Test Data Used: Seller: seller1, New SKU: SKU-9001, Updated SKU: SKU-0002 (piece_price: 500, stock: 0)
       Summary: 
-              As Per IF-01, valid CSV rows must be imported or updated by SKU and nothing should be dropped. After uploading a CSV with a new SKU (SKU-9001) and updated price/stock for an existing SKU (`SKU-0002`), the screen showed "Import complete: 7 rows, 0 errors", but neither the new product nor the updated price/stock was saved in Seller Products or Buyer Catalogue.
+              As Per IF-01, valid CSV rows must be imported or updated by SKU and nothing should be dropped. After uploading a CSV with a new SKU (SKU-9001) and updated price/stock for an existing SKU (SKU-0002), the screen showed "Import complete: 7 rows, 0 errors", but neither the new product nor the updated price/stock was saved in Seller Products or Buyer Catalogue.
     Steps To Reproduce:
    1. Log in as seller1 (Test@123) and upload a CSV containing new SKU SKU-9001 and updated price/stock for existing SKU SKU-0002.
   2. Observe the message if it show "Import Complete".
@@ -235,7 +235,7 @@ BUG-12: System allows ordering more pieces than available stock while ordering t
     Issue Type:Bug
     Severity:Critical
     Priority:P1 (Highest)
-    Test Data Used: Buyer: buyer1, Product: Chef's Basmati Rice (`SKU-0007`), Available Stock: 80 pieces, Case Size: 6 pieces, Ordered Qty: 15 cases (90 pieces), Created Order: WC-01008-1
+    Test Data Used: Buyer: buyer1, Product: Chef's Basmati Rice (SKU-0007), Available Stock: 80 pieces, Case Size: 6 pieces, Ordered Qty: 15 cases (90 pieces), Created Order: WC-01008-1
       Summary: 
               As Per BR-01, stock is held in pieces, a case equals case_size pieces, and an order can never take more pieces than are in stock. When Chef's Basmati Rice had 80 pieces in stock, adding and checking out 15 cases (15 × 6 = 90 pieces) succeeded without any insufficient-stock error.
     Steps To Reproduce:
@@ -250,7 +250,7 @@ Both Cart and Checkout must block 15 cases (90 pieces) because available stock i
 The system allowed adding 15 cases to cart and created order WC-01008-1 for 90 pieces.
 
 
-BUG-13: Cart quantity input box give option for a manual input + Update button instead of a 1–20 dropdown which is mentioned in (Section 5.1).
+BUG-13: Cart quantity input box give option for a manual input + Update button instead of a 1–20 dropdown.
     Issue Type:Bug
     Severity:Low
     Priority:P3 (Low)
@@ -353,7 +353,7 @@ BUG-18: Exchange requests display and approve a  amount (Rs.1,454.80) instead of
       Summary: 
               As Per BR-18, Refund amounts include the tax paid on the refunded quantities. An exchange sends replacement goods and returns no money. However, when submitting an exchange request for 4 cases, both the buyer Order Details  and the seller Refund and exchange requests screen calculate and display a  amount of Rs.1,454.80 instead of 0.
     Steps To Reproduce:
- 1. Log in as buyer1 (Test@12`) and open delivered order WC-01007-1.
+ 1. Log in as buyer1 (Test@12) and open delivered order WC-01007-1.
   2. Under Refund or exchange, select Exchange, enter 4 cases, and click Send request.
   3. Observe the Requests table on the buyer screen and log in as seller1  and go to Refunds section to approve the request.
 
@@ -380,7 +380,7 @@ BUG-19: Logistics CSV export gives  Hindi/UTF-8 buyer names into ????? ?????????
 buyer_name must come as शर्मा भोजनालय.
 
   Actual Result:
- buyer_name comes as `????? ?????????`.
+ buyer_name comes as ????? ?????????.
 
 
 BUG-20: Logistics CSV export swaps slot_start and slot_end values.
@@ -466,11 +466,11 @@ BUG-24: Double-clicking Place order button shows a red "Your cart is empty" erro
     Issue Type:Bug
     Severity:Medium
     Priority:P2 (High)
-    Test Data Used: Buyer: buyer2 , Valid Cart >= ₹2,000
+    Test Data Used: Buyer: buyer2 , Valid Cart >= Rs.2,000
       Summary: 
              As Per BR-10, double-clicking Place order must create one order and redirect to Order history with Your order has been placed. Order number: {numbers}. But after clicking Place order button two times simultaneously it shows "Your cart is empty" error on screen and you need to click back cursor to move to checkout page.
     Steps To Reproduce:
- 1. Log in as buyer2 (Test@123) and add items worth >= ₹2,000 net to the cart.
+ 1. Log in as buyer2 (Test@123) and add items worth >= Rs.2,000 net to the cart.
   2. Go to Checkout, select a valid delivery date and slot, and double-click Place order.
 
     Expected Result:

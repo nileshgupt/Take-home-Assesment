@@ -288,6 +288,119 @@ The Request redelivery button must be hidden or disabled unless the order status
 The Request redelivery button appears active and clickable on a placed order status also.
 
 
+BUG-15: Refund or exchange option is displayed and enabled on unshipped placed orders.
+    Issue Type:Bug
+    Severity:High
+    Priority:P2 (High)
+    Test Data Used: Buyer: buyer1, Order: WC-01008-1 (Status: placed)
+      Summary: 
+              As Per BR-17, Refund or exchange option are for delivered orders only. On the Order Details page of a newly placed order (WC-01008-1), the entire Refund or exchange section  is active before the order has even been accepted or delivered.
+    Steps To Reproduce:
+   1. Log in as buyer1 (Test@123) and place a new order (WC-01008-1).
+  2. Go to Orders and click View on WC-01008-1 (Status: placed).
+  3. Scroll down to the Refund or exchange section.
+
+    Expected Result:
+The Refund or exchange section must only be visible or available for delivered orders.
+
+  Actual Result:
+The Refund or exchange option is available and active for a placed status order also.
+
+
+BUG-16: Cart page has no Remove or Delete button to remove an individual product.
+    Issue Type:Bug
+    Severity:Medium
+    Priority:P2 (Medium)
+    Test Data Used: Buyer: buyer1, Cart Items: Green Basmati Rice, Hill Basmati Rice
+      Summary: 
+              When multiple products are added to the Cart, there is no Remove or Delete button/icon on any item row to remove a single product from the cart. The user is forced to manually type 0 in the quantity box and click Update to delete an item, even though BR-03 defines valid line quantities as 1 to 99.
+    Steps To Reproduce:
+   1. Log in as buyer1 (Test@123).
+  2. Add two different products (Green Basmati Rice and Hill Basmati Rice) to the cart.
+  3. Navigate to the Cart page and try to remove one item using a dedicated button.
+
+    Expected Result:
+Each cart line should provide a clear Remove / Delete button to remove that product from the cart.
+
+  Actual Result:
+No Remove/Delete control is present on the Cart screen, the buyer enter 0 in the quantity field and click Update to delete the item.
+
+
+BUG-17: Total exchanged quantity across multiple requests exceeds ordered quantity.
+    Issue Type:Bug
+    Severity:Critical
+    Priority:P1 (High)
+    Test Data Used: Buyer: buyer1, Seller: seller1, Order: WC-01007-1 (Chef's Basmati Rice, Ordered Qty: 5 cases), Request 1: 4 cases (approved by seller), Request 2: 4 cases (approved by seller)
+      Summary: 
+              As Per BR-17,The total quantity refunded or exchanged can never exceed the quantity ordered. But system fails to track quantity of items if exchabge requested multiple times for same items and approved each time which make to approve exchanging items more than ordered value.
+    Steps To Reproduce:
+  1. Open delivered order WC-01007-1 (Chef's Basmati Rice, ordered qty: 5 cases) as buyer1.
+  2. Submit a request for 4 cases and log in as seller1 to approve it.
+  3. Log back in as buyer1 and open WC-01007-1 again and submit another request for 4 cases exchange, and approve it from seller1.
+
+    Expected Result:
+The second request for 4 cases must be rejected because 4 + 4 = 8 exceeds the ordered quantity of 5 cases.
+
+  Actual Result:
+Both requests for 4 cases (8 cases total) were accepted and approved.
+
+
+BUG-18: Exchange requests display and approve a  amount (Rs.1,454.80) instead of Rs.0.00.
+    Issue Type:Bug
+    Severity:Critical
+    Priority:P1 (High)
+    Test Data Used: Buyer: buyer1, Seller: seller1, Order: WC-01007-1 
+      Summary: 
+              As Per BR-18, Refund amounts include the tax paid on the refunded quantities. An exchange sends replacement goods and returns no money. However, when submitting an exchange request for 4 cases, both the buyer Order Details  and the seller Refund and exchange requests screen calculate and display a  amount of Rs.1,454.80 instead of 0.
+    Steps To Reproduce:
+ 1. Log in as buyer1 (Test@12`) and open delivered order WC-01007-1.
+  2. Under Refund or exchange, select Exchange, enter 4 cases, and click Send request.
+  3. Observe the Requests table on the buyer screen and log in as seller1  and go to Refunds section to approve the request.
+
+    Expected Result:
+An exchange request must show RS.0.00.
+
+  Actual Result:
+ Both Buyer and Seller screens display Rs.1,454.80 for the exchange request.
+
+
+BUG-19: Logistics CSV export gives  Hindi/UTF-8 buyer names into ????? ????????? .
+    Issue Type:Bug
+    Severity:High
+    Priority:P1 (Highest)
+    Test Data Used: Buyer: buyer3 (शर्मा भोजनालय), Order: WC-01009-1 (Status: accepted) 
+      Summary: 
+              As Per  IF-02, the logistics export must generate a UTF-8 CSVcontaining buyer_name. When exporting an accepted order placed by buyer3 (शर्मा भोजनालय), the Hindi text is corrupted into ????? ?????????.
+    Steps To Reproduce:
+  1. Place an order as buyer3 (शर्मा भोजनालय) and accept it from seller2(orderid -WC-01009-1).
+  2. Log in as operator (Test@123) and go to Logistics export navigation and click Run export now.
+  3. Download and open the generated CSV file.
+
+    Expected Result:
+buyer_name must come as शर्मा भोजनालय.
+
+  Actual Result:
+ buyer_name comes as `????? ?????????`.
+
+
+BUG-20: Logistics CSV export swaps slot_start and slot_end values.
+    Issue Type:Bug
+    Severity:High
+    Priority:P2 (High)
+    Test Data Used: Orders: WC-01009-1 (14:00–17:00 slot), WC-01008-1 (17:00–20:00 slot) 
+      Summary: 
+              As Per IF-02, the logistics export CSV output columns must be  in the order of order_number, buyer_name, delivery_address, delivery_date, slot_start, slot_end, pieces. While the header names are in the right order, the actual values under slot_start and slot_end are reversed.
+    Steps To Reproduce:
+    1. Log in as operator (Test@123) and go to Logistics export and click Run export now.
+  2. Open the downloaded CSV and compare the slot_start and slot_end columns.
+
+    Expected Result:
+slot_start should contain the start time (14:00, 17:00) and slot_end should contain the end time (17:00, 20:00).
+
+  Actual Result:
+ Both data is reversed.
+
+
 
 
 

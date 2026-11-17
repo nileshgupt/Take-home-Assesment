@@ -16,8 +16,6 @@ Checkout must block the order and show Minimum order value is Rs.2000 per seller
 
   Actual Result:
 The order was placed successfully with Order Number WC-01007-1 (Rs.1,731.90 net) was created.
-Attachment:
-<img width="1081" height="205" alt="Bug_1 output" src="https://github.com/user-attachments/assets/8059da24-d255-4d28-a6ed-e7394c592522" />
 
 BUG-02: Tax Invoice missing mandatory Supply type: B2B and Place of supply fields 
     Issue Type:Bug
@@ -479,6 +477,25 @@ The button should prevent duplicate submission and redirect smoothly to Order hi
 
   Actual Result:
  The screen displays a red error alert "Your cart is empty" on the Checkout page.
+
+
+BUG-25: Page refresh becomes unresponsive and keeps import message on screen after Seller CSV upload and clicking refresh also .
+    Issue Type:Bug
+    Severity:Medium
+    Priority:P3 (Medium)
+    Test Data Used: Seller: seller1, File: sample-products_check.csv`
+      Summary: 
+             After uploading a CSV file on the Seller Products menu and receiving the "Import complete" message, after that if we refresh the browser page it unresponsive and fails to reload the product table and status message remains visible on the screen instead of resetting to a fresh page state.
+    Steps To Reproduce:
+  1. Log in as seller1 (Test@123) and navigate to Products.
+  2. Choose a CSV file under Import products (CSV) and click Upload.
+  3. After the "Import complete" message appears, refresh the browser page.
+
+    Expected Result:
+Refreshing the page should reload a clean Products page with updated inventory rows.
+
+  Actual Result:
+ The refresh action is unresponsive.
 
 
 

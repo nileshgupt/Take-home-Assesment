@@ -16,7 +16,8 @@ Checkout must block the order and show Minimum order value is Rs.2000 per seller
 
   Actual Result:
 The order was placed successfully with Order Number WC-01007-1 (Rs.1,731.90 net) was created.
-
+Attachment:
+<img width="1081" height="205" alt="Bug_1 output" src="https://github.com/user-attachments/assets/8059da24-d255-4d28-a6ed-e7394c592522" />
 
 BUG-02: Tax Invoice missing mandatory Supply type: B2B and Place of supply fields 
     Issue Type:Bug

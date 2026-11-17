@@ -179,7 +179,7 @@ BUG-09: Seller `My products` screen has no option to edit product price or stock
     Priority:P2 (High)
     Test Data Used: Seller: seller1, Product: SKU-0002 (Green Basmati Rice)
       Summary: 
-              As Per Per Design Doc Section 1, sellers can manage products and stock via screen. On the Seller My products page, products are shown in a read-only table with no Edit button or input box to change stock or price directly from the UI.
+              As Per Design Doc Section 1, sellers can manage products and stock via screen. On the Seller My products page, products are shown in a read-only table with no Edit button or input box to change stock or price directly from the UI.
     Steps To Reproduce:
 1. Log in as seller1 (Test@123).
   2. Navigate to Products.
@@ -399,6 +399,85 @@ slot_start should contain the start time (14:00, 17:00) and slot_end should cont
 
   Actual Result:
  Both data is reversed.
+
+
+BUG-21: Clicking Store Clock back to Real time option  does not clear the fixed timestamp field.
+    Issue Type:Bug
+    Severity:Medium
+    Priority:P3 (Medium)
+    Test Data Used: Account: operator, Fixed Timestamp: 2027-11-17T11:05:01 
+      Summary: 
+             As Per BR-24, operators can fix the store clock for testing and switch back to real time (default). After setting a fixed timestamp (2027-11-17T11:05:01), selecting Real time and clicking Save settings displays Settings saved, but on reload the fixed timestamp value still remains present instead of clear.
+    Steps To Reproduce:
+    1. Log in as operator (Test@123).
+  2. Select Fixed at, enter 2027-11-17T11:05:01, and click Save settings.
+  3. Select Real time and click Save settings.
+  4. Refresh or reload the Settings page and check the Store clock input box
+
+    Expected Result:
+Selecting Real time and saving must clear the fixed timestamp.
+
+  Actual Result:
+ The 2027-11-17T11:05:01 timestamp remains displayed in the input box even when Real time is selected.
+
+
+
+BUG-22: Seller-cancelled order (WC-01011-1) still shows Status: placed on Buyer screen.
+    Issue Type:Bug
+    Severity:High
+    Priority:P1 (Highest)
+    Test Data Used: Buyer: buyer1 (Spice Route Kitchen), Seller: seller3 (Coastal Beverages), Order: WC-01011-1 
+      Summary: 
+             As Per BR-12, When a seller cancels an order, the buyer sees status Cancelled immediately. After seller3  cancelled order WC-01011-1 (which shows cancelled in the seller's order list), the buyer screen still displays Status: placed.
+    Steps To Reproduce:
+ 1. Log in as buyer1 (Test@123) and place an order for (WC-01011-1).
+  2. Log in as seller3 (Test@123), open Orders, and click Cancel on WC-01011-1 (status updated to cancelled).
+  3. Log back in as buyer1, open Orders, and click View on WC-01011-1
+
+    Expected Result:
+The buyer order screen must immediately reflect Status: cancelled.
+
+  Actual Result:
+ The buyer screen still shows Status: placed.
+
+
+BUG-23: Product stock is not deducted after order placement and seller acceptance.
+    Issue Type:Bug
+    Severity:Critical
+    Priority:P1 (Highest)
+    Test Data Used: Buyer: buyer1, Seller: seller3 , Product: Chef's Club Soda (Initial Stock: 24 cases), Order: WC-01012-1
+      Summary: 
+             An order can never take more pieces than are in stock, which requires deducting ordered quantities from available stock after checkout. After placing order WC-01012-1 for 4 cases of Chef's Club Soda (initial stock: 24 cases) and accepting it from seller3, the available stock in the buyer catalogue still remained at 24 cases instead of 20 cases.
+    Steps To Reproduce:
+ 1. Log in as buyer1 (Test@123) and note the available stock of Chef's Club Soda (24 cases).
+  2. Place an order for 4 cases (WC-01012-1).
+  3. Log in as seller3 (Test@123) and click Accept on WC-01012-1.
+  4. Log back in as buyer1 and search for Chef's Club Soda in the Catalogue.
+
+    Expected Result:
+Available stock must decrease by the ordered quantity (24 - 4 = 20 cases).
+
+  Actual Result:
+ Stock remained unchanged at 24 cases even after the order was placed and accepted
+
+
+
+BUG-24: Double-clicking Place order button shows a red "Your cart is empty" error instead of Order  confirmation .
+    Issue Type:Bug
+    Severity:Medium
+    Priority:P2 (High)
+    Test Data Used: Buyer: buyer2 , Valid Cart >= ₹2,000
+      Summary: 
+             As Per BR-10, double-clicking Place order must create one order and redirect to Order history with Your order has been placed. Order number: {numbers}. But after clicking Place order button two times simultaneously it shows "Your cart is empty" error on screen and you need to click back cursor to move to checkout page.
+    Steps To Reproduce:
+ 1. Log in as buyer2 (Test@123) and add items worth >= ₹2,000 net to the cart.
+  2. Go to Checkout, select a valid delivery date and slot, and double-click Place order.
+
+    Expected Result:
+The button should prevent duplicate submission and redirect smoothly to Order history with the orderconfirmation .
+
+  Actual Result:
+ The screen displays a red error alert "Your cart is empty" on the Checkout page.
 
 
 

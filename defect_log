@@ -153,4 +153,142 @@ Both of them are enable and giving expected error output after clicking them.
 
 
 
+BUG-08: Cancel order and Change slot buttons remain enabled on already delivered orders
+    Issue Type:Bug
+    Severity:Medium
+    Priority:P2 (High)
+    Test Data Used: Buyer: buyer1, Order: WC-01007-1 (Status: delivered)
+      Summary: 
+              As Per BR-11 and BR-15, buyers can only cancel an order within 5 minutes of placing it (before shipment) and can only change the delivery slot before the order ships. However, on an already delivered order, both Cancel order and Change slot buttons still appear enabled on the UI and only show an expected error after the user clicks and submits them.
+    Steps To Reproduce:
+1. Log in as buyer1 (Test@123).
+  2. Go to Orders and click View on a delivered order (WC-01007-1).
+  3. Check the Cancel order and Change slot buttons and try clicking them.
+
+    Expected Result:
+Both of them should not be enable for delivered order.
+
+  Actual Result:
+Both of them are enable and giving expected error output after clicking them
+
+
+
+BUG-09: Seller `My products` screen has no option to edit product price or stock which is mention in Design doc that seller can manage the product
+    Issue Type:Bug
+    Severity:Medium
+    Priority:P2 (High)
+    Test Data Used: Seller: seller1, Product: SKU-0002 (Green Basmati Rice)
+      Summary: 
+              As Per Per Design Doc Section 1, sellers can manage products and stock via screen. On the Seller My products page, products are shown in a read-only table with no Edit button or input box to change stock or price directly from the UI.
+    Steps To Reproduce:
+1. Log in as seller1 (Test@123).
+  2. Navigate to Products.
+  3. Try to edit the stock or price of any product directly on the screen
+
+    Expected Result:
+Each product row should have an Edit option or input box so sellers can update stock and price directly from the screen .
+
+  Actual Result:
+The product list is completely read-only with no option to edit stock or price.
+
+
+BUG-10: CSV product import accepts negative stock (-5) without showing any error.
+    Issue Type:Bug
+    Severity:Critical
+    Priority:P1 (Highest)
+    Test Data Used: Seller: seller1, CSV Row 8: SKU-0000,Negative
+      Summary: 
+              As Per IF-01, invalid CSV rows must be rejected and reported with their exact line number and reason. When uploading a CSV file containing a row with negative stock (stock = -5), the importer did not show any error and reported "Import complete".
+    Steps To Reproduce:
+  1. Log in as seller1 (Test@123) and go to Products.
+  2. Upload a CSV file containing a row with negative stock (stock = -5 for SKU-0000).
+  3. Check the upload status message.
+
+    Expected Result:
+The importer must reject Row 8 and report the exact line number and error reason (`"Line 8: stock cannot be negative"`).
+
+  Actual Result:
+No error was reported the screen showed "Import complete".
+
+
+
+BUG-11: CSV product import does not updated with latest csv data.
+    Issue Type:Bug
+    Severity:Critical
+    Priority:P1 (Highest)
+    Test Data Used: Seller: seller1, New SKU: SKU-9001, Updated SKU: SKU-0002 (piece_price: 500, stock: 0)
+      Summary: 
+              As Per IF-01, valid CSV rows must be imported or updated by SKU and nothing should be dropped. After uploading a CSV with a new SKU (SKU-9001) and updated price/stock for an existing SKU (`SKU-0002`), the screen showed "Import complete: 7 rows, 0 errors", but neither the new product nor the updated price/stock was saved in Seller Products or Buyer Catalogue.
+    Steps To Reproduce:
+   1. Log in as seller1 (Test@123) and upload a CSV containing new SKU SKU-9001 and updated price/stock for existing SKU SKU-0002.
+  2. Observe the message if it show "Import Complete".
+  3. Check Products as seller1 and search for SKU-9001 and SKU-0002 as buyer1
+
+    Expected Result:
+SKU-9001 must be added and SKU-0002 must updated according to uploaded csv file.
+
+  Actual Result:
+Neither SKU-9001 was created nor SKU-0002 updated with latest details.
+
+
+BUG-12: System allows ordering more pieces than available stock while ordering the items.
+    Issue Type:Bug
+    Severity:Critical
+    Priority:P1 (Highest)
+    Test Data Used: Buyer: buyer1, Product: Chef's Basmati Rice (`SKU-0007`), Available Stock: 80 pieces, Case Size: 6 pieces, Ordered Qty: 15 cases (90 pieces), Created Order: WC-01008-1
+      Summary: 
+              As Per BR-01, stock is held in pieces, a case equals case_size pieces, and an order can never take more pieces than are in stock. When Chef's Basmati Rice had 80 pieces in stock, adding and checking out 15 cases (15 × 6 = 90 pieces) succeeded without any insufficient-stock error.
+    Steps To Reproduce:
+   1. Log in as buyer1 (Test@123) and open Chef's Basmati Rice (SKU-0007, stock: 80 pieces, Case of 6).
+  2. Select unit Case, enter quantity 15 which is equal(15* 6=90)(90 pieces > 80 pieces), and click Add to cart.
+  3. Go to Checkout, select a valid delivery date/slot, and click Place order.
+
+    Expected Result:
+Both Cart and Checkout must block 15 cases (90 pieces) because available stock is only 80 pieces .
+
+  Actual Result:
+The system allowed adding 15 cases to cart and created order WC-01008-1 for 90 pieces.
+
+
+BUG-13: Cart quantity input box give option for a manual input + Update button instead of a 1–20 dropdown which is mentioned in (Section 5.1).
+    Issue Type:Bug
+    Severity:Low
+    Priority:P3 (Low)
+    Test Data Used: Buyer: buyer1, Product: Chef's Basmati Rice (Quantity: 15)
+      Summary: 
+              As Per Design Doc Section 5.1, the quantity box must be a Dropdown (1–20) where changing the selection updates the line automatically. On the actual Cart page, a plain number input box with a separate Update button is showing.
+    Steps To Reproduce:
+   1. Log in as buyer1 (Test@123) and add any product to the cart.
+  2. Open the Cart page and update the Quantity column..
+
+    Expected Result:
+Quantity column displays a 1–20 dropdown option .
+
+  Actual Result:
+A number input field with an Update button is displayed instead of a dropdown.
+
+
+
+BUG-14: Request redelivery button is enabled on unshipped placed orders.
+    Issue Type:Bug
+    Severity:High
+    Priority:P1 (High)
+    Test Data Used: Buyer: buyer1, Order: WC-01008-1 (Status: placed)
+      Summary: 
+              As Per BR-13 and BR-14, a buyer can request redelivery only after a failed delivery. However, on a newly placed order (Status: placed), the Request redelivery button is visible and enabled on the Order Details screen.
+    Steps To Reproduce:
+  1. Log in as buyer1 (Test@123) and place a new order (WC-01008-1).
+  2. Open Orders and click View on the placed order.
+  3. Reequest redelivery button is enabled and clickable
+
+    Expected Result:
+The Request redelivery button must be hidden or disabled unless the order status is delivery failed.
+
+  Actual Result:
+The Request redelivery button appears active and clickable on a placed order status also.
+
+
+
+
+
   

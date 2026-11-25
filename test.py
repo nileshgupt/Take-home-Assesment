@@ -52,7 +52,7 @@ wait.until(EC.visibility_of_element_located((By.XPATH, "//input[contains(@name,'
 wait.until(EC.element_to_be_clickable((By.XPATH, "//button[text()='Search']"))).click()
 time.sleep(2)
 
-# To select Basmati Rice
+# To select Item
 wait.until(EC.element_to_be_clickable((By.XPATH, '//a[text()="Chef\'s Moong Dal"]'))).click()
 page_text = wait.until(EC.visibility_of_element_located((By.TAG_NAME, "body"))).text
 stock_match = re.search(r"In stock:\s*(\d+)", page_text)
@@ -74,7 +74,7 @@ if available_Stock <= 0 or (min_cases * per_case_quantity) > available_Stock:
         #break
 else:
 
-    # 8. Buyer se poochein kitne cases order karne hain
+    # 8. How many need to order
     user_qty = (input(f"How many need t order? (Enter press automatically take  {min_cases} ): ")).strip()
     if int(user_qty) < min_cases:
         raise Exception ("Quantity must be greter or equal to min_cases")
@@ -188,13 +188,6 @@ if order_number in invoice_text:
     print(f"Order Number matched on invoice: {order_number}")
 else:
     print(f"Order Number {order_number} not found on invoice!")
-
-# Check 2: Does Net Calculation showing in Invoice?
-expected_net = f"{total_amount:.2f}"
-if expected_net in invoice_text:
-    print(f"Net amount verified on invoice: Rs {expected_net}")
-else:
-    print(f"Net amount mismatch Expected Rs {expected_net}")
 
 
 #

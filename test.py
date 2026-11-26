@@ -179,9 +179,9 @@ wait.until(EC.element_to_be_clickable((By.XPATH, "//button[text()='Log in']"))).
 wait.until(EC.element_to_be_clickable((By.XPATH, "//a[text()='Invoices']"))).click()
 time.sleep(1)
 # click view to open invoice
-wait.until(EC.element_to_be_clickable((By.XPATH, "(//a[text()='View'])[1]"))).click()
+wait.until(EC.element_to_be_clickable((By.XPATH, "//table/tbody/tr[1]/td[5]"))).click()
 invoice_text = wait.until(EC.visibility_of_element_located((By.TAG_NAME, "body"))).text
-print("=GENERATED INVOICE DATA===")
+print("GENERATED INVOICE DATA::")
 
 # Check 1: Does exact Order Number showing in invoice
 if order_number in invoice_text:

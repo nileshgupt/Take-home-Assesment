@@ -101,7 +101,7 @@ wait.until(EC.element_to_be_clickable((By.XPATH, "//button[text()='Add to cart']
 
 ## Proceed to Checout
 wait.until(EC.element_to_be_clickable((By.XPATH, "//a[contains(@href,'/c/nilesh-7cb355/checkout')]"))).click()
-wait.until(EC.visibility_of_element_located((By.XPATH,"//input[contains(@name,'date')]"))).send_keys("11/27/2026")
+wait.until(EC.visibility_of_element_located((By.XPATH,"//input[contains(@name,'date')]"))).send_keys("11/28/2026")
 wait.until(EC.element_to_be_clickable((By.CLASS_NAME, "secondary"))).click()
 
 # Slot Availability
@@ -152,13 +152,13 @@ print("Login successful! Page title:", driver.title)
 
 # 7. Accept ,Ship & Delivery Order
 
-wait.until(EC.element_to_be_clickable((By.XPATH, "(//button[text()='Accept'])[1]"))).click()
+wait.until(EC.element_to_be_clickable((By.XPATH, "//table/tbody/tr[8]/td[6]//button[text()='Accept']"))).click()
 print("Order Accepted!")
 time.sleep(1)
-wait.until(EC.element_to_be_clickable((By.XPATH, "(//button[text()='Ship'])[1]"))).click()
+wait.until(EC.element_to_be_clickable((By.XPATH, "//table/tbody/tr[8]/td[6]//button[text()='Ship']"))).click()
 print("Order Shipped!")
 time.sleep(1)
-wait.until(EC.element_to_be_clickable((By.XPATH, "(//button[text()='Deliver'])[1]"))).click()
+wait.until(EC.element_to_be_clickable((By.XPATH, "//table/tbody/tr[8]/td[6]//button[text()='Deliver']"))).click()
 print("Order Delivered!")
 time.sleep(1)
 ## Logout from seller and again login to buyer for invoice

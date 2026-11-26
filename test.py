@@ -66,12 +66,12 @@ min_cases = 1
 while (min_cases * case_price) < 2000:
     min_cases = min_cases + 1
 
-print(f"\nCase Price: Rs {case_price} | Available Stock: {available_Stock} pieces ({available_Stock // per_case_quantity} cases)")
+print(f"Case Price: Rs {case_price} and Available Stock: {available_Stock} pieces and ({available_Stock // per_case_quantity} cases)")
 print(f"For Rs 2,000+, minimum order required: {min_cases} cases or  ({min_cases * per_case_quantity} pieces).")
 
 if available_Stock <= 0 or (min_cases * per_case_quantity) > available_Stock:
     print(f"OUT OF STOCK: Available stock ({available_Stock} pieces) is not enough for minimum order.")
-        #break
+        
 else:
 
     # 8. How many need to order
@@ -101,7 +101,7 @@ wait.until(EC.element_to_be_clickable((By.XPATH, "//button[text()='Add to cart']
 
 ## Proceed to Checout
 wait.until(EC.element_to_be_clickable((By.XPATH, "//a[contains(@href,'/c/nilesh-7cb355/checkout')]"))).click()
-wait.until(EC.visibility_of_element_located((By.XPATH,"//input[contains(@name,'date')]"))).send_keys("11/26/2026")
+wait.until(EC.visibility_of_element_located((By.XPATH,"//input[contains(@name,'date')]"))).send_keys("11/27/2026")
 wait.until(EC.element_to_be_clickable((By.CLASS_NAME, "secondary"))).click()
 
 # Slot Availability
@@ -130,7 +130,7 @@ elif choice == "4":
 wait.until(EC.element_to_be_clickable((By.XPATH, "//button[text()='Place order']"))).click()
 time.sleep(1)
 
-order_cell = wait.until(EC.visibility_of_element_located((By.XPATH, "(//*[starts-with(normalize-space(text()), 'WC-')])[1]")))
+order_cell = wait.until(EC.visibility_of_element_located((By.XPATH, "//table/tbody/tr[1]/td[1]")))
 order_number = order_cell.text.strip()
 print("Your Order Number is: ", order_number)
 
@@ -162,7 +162,7 @@ wait.until(EC.element_to_be_clickable((By.XPATH, "(//button[text()='Deliver'])[1
 print("Order Delivered!")
 time.sleep(1)
 ## Logout from seller and again login to buyer for invoice
-wait.until(EC.presence_of_element_located((By.XPATH, "//*[contains(text(), 'Log out')]"))).click()
+wait.until(EC.element_to_be_clickable((By.XPATH, "//a[text()='Log out']"))).click()
 
 # Login for buyer agian
 print("Login for buyer again to check invoice")
@@ -189,8 +189,6 @@ if order_number in invoice_text:
 else:
     print(f"Order Number {order_number} not found on invoice!")
 
-
-#
 input("To Close Browser Press Enter...")
 driver.quit()
 

@@ -57,7 +57,7 @@ wait.until(EC.element_to_be_clickable((By.XPATH, '//a[text()="Chef\'s Moong Dal"
 page_text = wait.until(EC.visibility_of_element_located((By.TAG_NAME, "body"))).text
 stock_match = re.search(r"In stock:\s*(\d+)", page_text)
 case_match = re.search(r"Case of\s*(\d+)", page_text).group(1)
-case_price = float(re.search(r"Case of\s*\d+:\s*₹\s*([\d,.]+)", page_text).group(1).replace(",", ""))
+case_price = float(re.search(r"Case of \d+:\s*₹(\d+\.\d+)", page_text).group(1))
 
 available_Stock = int(stock_match.group(1))
 per_case_quantity = int(case_match)
